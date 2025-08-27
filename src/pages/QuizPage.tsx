@@ -17,7 +17,7 @@ const QuizPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [showResults, setShowResults] = useState(false);
-  const { checkFeatureAccess } = useSubscriptionStore();
+  // const { checkFeatureAccess } = useSubscriptionStore();
 
   useEffect(() => {
     fetchQuiz();
