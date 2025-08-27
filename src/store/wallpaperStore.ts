@@ -169,6 +169,7 @@ export const useWallpaperStore = create<WallpaperState>((set, get) => ({
   downloadWallpaper: async (wallpaper, type) => {
     try {
       // const { checkFeatureAccess, incrementUsage } = useSubscriptionStore.getState();
+      const { incrementUsage } = useSubscriptionStore.getState();
       
       // // Check if user has subscription access
       // if (!checkFeatureAccess('wallpaper_download')) {
