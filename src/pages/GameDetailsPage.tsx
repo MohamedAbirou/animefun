@@ -12,7 +12,8 @@ const GameDetailsPage = () => {
   const [game, setGame] = useState<Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
-  const { checkFeatureAccess, incrementUsage } = useSubscriptionStore();
+  // const { checkFeatureAccess, incrementUsage } = useSubscriptionStore();
+  const { incrementUsage } = useSubscriptionStore();
 
   useEffect(() => {
     fetchGame();
