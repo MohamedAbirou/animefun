@@ -103,14 +103,14 @@ const QuizPage = () => {
     if (!quiz) return;
 
     // Check if user has subscription access for quiz results
-    if (!checkFeatureAccess('quiz_results')) {
-      // Show subscription modal instead of error
-      const event = new CustomEvent('showSubscriptionModal', { 
-        detail: { feature: 'quiz results' } 
-      });
-      window.dispatchEvent(event);
-      return;
-    }
+    // if (!checkFeatureAccess('quiz_results')) {
+    //   // Show subscription modal instead of error
+    //   const event = new CustomEvent('showSubscriptionModal', { 
+    //     detail: { feature: 'quiz results' } 
+    //   });
+    //   window.dispatchEvent(event);
+    //   return;
+    // }
 
     try {
       // Find character with highest points
