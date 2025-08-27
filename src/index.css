@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary-600 text-white hover:bg-secondary-700 focus:ring-secondary-500;
+  }
+  
+  .btn-accent {
+    @apply bg-accent-600 text-white hover:bg-accent-700 focus:ring-accent-500;
+  }
+  
+  .btn-outline {
+    @apply border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800;
+  }
+  
+  .card {
+    @apply rounded-lg bg-white p-6 shadow-card transition-shadow hover:shadow-card-hover dark:bg-dark-card;
+  }
+  
+  .form-input {
+    @apply block w-full rounded-md border border-gray-300 bg-white px-2 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-dark-card dark:text-white;
+  }
+  
+  .form-label {
+    @apply mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300;
+  }
+  
+  .page-container {
+    @apply container mx-auto px-4 py-8 md:px-6 lg:px-8;
+  }
+}
+
+/* Scroll animations */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Transition for color theme changes */
+.transition-theme {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
