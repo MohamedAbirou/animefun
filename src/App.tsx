@@ -16,9 +16,6 @@ const QuizResultsPage = lazy(() => import('./pages/QuizResultsPage'))
 const GamesPage = lazy(() => import('./pages/GamesPage'))
 const GameDetailsPage = lazy(() => import('./pages/GameDetailsPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
-const SubscriptionPage = lazy(() => import('./pages/SubscriptionPage'))
-const SubscriptionSuccessPage = lazy(() => import('./pages/SubscriptionSuccessPage'))
-const SubscriptionCanceledPage = lazy(() => import('./pages/SubscriptionCanceledPage'))
 
 // Legal and Info pages
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'))
@@ -57,11 +54,6 @@ function App() {
             <Route index element={<GamesPage />} />
             <Route path=":id" element={<GameDetailsPage />} />
           </Route>
-          
-          {/* Subscription routes */}
-          <Route path="subscription" element={<SubscriptionPage />} />
-          <Route path="subscription/success" element={<SubscriptionSuccessPage />} />
-          <Route path="subscription/canceled" element={<SubscriptionCanceledPage />} />
           
           {/* Legal and Info Routes */}
           <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
