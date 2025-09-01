@@ -194,9 +194,6 @@ export const useWallpaperStore = create<WallpaperState>((set, get) => ({
         throw new Error("Invalid wallpaper URL");
       }
 
-      // Increment usage
-      await incrementUsage('wallpaper_download');
-
       // Track interaction
       await trackInteraction("wallpaper_download", wallpaper.id);
 
