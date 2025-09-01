@@ -54,8 +54,7 @@ const FAQPage = () => {
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Simply browse our wallpaper collection, select the one you like, and click the
-                download button. Some wallpapers may require unlocking through our content locker
-                system.
+                download button.
               </p>
             </div>
           </div>
@@ -110,33 +109,6 @@ const FAQPage = () => {
               <p className="text-gray-600 dark:text-gray-400">
                 Yes! All our games are thoroughly tested and scanned for malware before being made
                 available. We prioritize user safety and security.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Content Locker</h2>
-          
-          <div className="space-y-4">
-            <div className="bg-white dark:bg-dark-card rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                What is the content locker?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                The content locker is a system that requires users to complete a quick task before
-                accessing certain content. This helps us maintain and improve our platform while
-                keeping it free for everyone.
-              </p>
-            </div>
-
-            <div className="bg-white dark:bg-dark-card rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                How long does unlocking content take?
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Unlocking content typically takes just a few minutes. Once unlocked, you'll have
-                immediate access to the content you want to download or view.
               </p>
             </div>
           </div>

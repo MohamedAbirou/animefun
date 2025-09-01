@@ -34,7 +34,7 @@ export const getSignedUrl = async (bucket: string, path: string) => {
 
 // Track download/interaction
 export const trackInteraction = async (
-  type: 'wallpaper_download' | 'quiz_completion' | 'game_download' | 'locker_interaction', 
+  type: 'wallpaper_download' | 'quiz_completion' | 'game_download', 
   itemId: string,
   metadata?: Record<string, any>
 ) => {

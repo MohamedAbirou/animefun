@@ -47,7 +47,6 @@ export default function AddEditQuizModal({
         },
       ],
       is_default: false,
-      use_locker: true,
     },
   });
 
@@ -81,8 +80,7 @@ export default function AddEditQuizModal({
             ],
           },
         ],
-        is_default: false,
-        use_locker: true,
+        is_default: false
       });
     }
   }, [quiz, reset]);
@@ -506,17 +504,6 @@ export default function AddEditQuizModal({
                           className="mr-2 h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                         />
                         Set as Default Quiz
-                      </label>
-                    </div>
-
-                    <div className="flex items-center">
-                      <label className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                      <input
-                        type="checkbox"
-                        {...register("use_locker")}
-                        className="mr-2 h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                      />
-                        Enable Content Locker
                       </label>
                     </div>
                   </div>

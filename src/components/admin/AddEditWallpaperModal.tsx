@@ -18,7 +18,6 @@ interface WallpaperFormData {
   previews: Record<string, string[]>;
   download_links: Record<string, string>;
   pack_counts: Record<string, number>;
-  use_locker: boolean;
 }
 
 const WALLPAPER_TYPES = [
@@ -61,7 +60,6 @@ export default function AddEditWallpaperModal({
             desktop_sketchy_count: 0,
             mobile_sketchy_count: 0,
           },
-          use_locker: true,
         }
       : {
           anime_id: "",
@@ -74,7 +72,6 @@ export default function AddEditWallpaperModal({
             desktop_sketchy_count: 0,
             mobile_sketchy_count: 0,
           },
-          use_locker: true,
         },
   });
 
@@ -91,7 +88,6 @@ export default function AddEditWallpaperModal({
           desktop_sketchy_count: 0,
           mobile_sketchy_count: 0,
         },
-        use_locker: wallpaper.use_locker || true,
       });
     } else {
       reset({
@@ -105,7 +101,6 @@ export default function AddEditWallpaperModal({
           desktop_sketchy_count: 0,
           mobile_sketchy_count: 0,
         },
-        use_locker: true,
       });
     }
   }, [wallpaper, reset]);
@@ -471,17 +466,6 @@ export default function AddEditWallpaperModal({
                         </div>
                       ))}
                     </div>
-                  </div>
-
-                  <div className="flex items-center">
-                    <label className="flex items-center text-sm text-gray-700 dark:text-gray-300">
-                      <input
-                        type="checkbox"
-                        {...register("use_locker")}
-                        className="mr-2 h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                      />
-                      Enable Content Locker
-                    </label>
                   </div>
 
                   <div className="mt-6 flex justify-end space-x-3">

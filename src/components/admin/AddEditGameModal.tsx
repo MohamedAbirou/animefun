@@ -22,8 +22,7 @@ export default function AddEditGameModal({ isOpen, onClose, game, onSuccess }: P
       title: '',
       description: '',
       apk_file: '',
-      tags: [],
-      use_locker: true
+      tags: []
     }
   })
 
@@ -189,17 +188,6 @@ export default function AddEditGameModal({ isOpen, onClose, game, onSuccess }: P
                       {...register('tags')}
                       className="form-input"
                     />
-                  </div>
-
-                  <div className="flex items-center">
-                    <input
-                      type="checkbox"
-                      {...register('use_locker')}
-                      className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                    />
-                    <label className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                      Use Locker
-                    </label>
                   </div>
                   
                   {/* APK File Upload */}

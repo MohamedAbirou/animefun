@@ -8,7 +8,6 @@ export interface Quiz {
   questions: QuizQuestion[]
   is_default: boolean
   completion_count: number
-  use_locker: boolean
   created_at: string
   updated_at: string
   anime_series?: {

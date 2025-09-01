@@ -17,15 +17,13 @@ interface DashboardStats {
   wallpaperDownloads: number;
   quizCompletions: number;
   gameDownloads: number;
-  lockerInteractions: number;
 }
 
 interface RecentActivity {
   type:
     | "wallpaper_download"
     | "quiz_completion"
-    | "game_download"
-    | "locker_interaction";
+    | "game_download";
   item_id: string;
   created_at: string;
   itemName?: string;
@@ -49,7 +47,6 @@ const AdminDashboardPage = () => {
     wallpaperDownloads: 0,
     quizCompletions: 0,
     gameDownloads: 0,
-    lockerInteractions: 0,
   });
 
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
@@ -152,7 +149,6 @@ const AdminDashboardPage = () => {
           "wallpaper_download",
           "quiz_completion",
           "game_download",
-          "locker_interaction",
         ];
 
         const interactionCounts = await Promise.all(
@@ -191,9 +187,6 @@ const AdminDashboardPage = () => {
         const gameDownloads =
           interactionCounts.find((i) => i.type === "game_download")?.current ||
           0;
-        const lockerInteractions =
-          interactionCounts.find((i) => i.type === "locker_interaction")
-            ?.current || 0;
 
         // Update stats
         setStats({
@@ -204,7 +197,6 @@ const AdminDashboardPage = () => {
           wallpaperDownloads,
           quizCompletions,
           gameDownloads,
-          lockerInteractions,
         });
 
         // Set percentage changes
@@ -218,9 +210,6 @@ const AdminDashboardPage = () => {
           game_download:
             interactionCounts.find((i) => i.type === "game_download")?.change ||
             0,
-          locker_interaction:
-            interactionCounts.find((i) => i.type === "locker_interaction")
-              ?.change || 0,
         });
 
         // Process recent activity
@@ -325,13 +314,6 @@ const AdminDashboardPage = () => {
       color: "bg-green-400",
       change: `${interactionChanges.game_download?.toFixed(1) ?? 0}%`,
     },
-    {
-      name: "Locker Interactions",
-      value: stats.lockerInteractions,
-      icon: ChartBarIcon,
-      color: "bg-orange-400",
-      change: `${interactionChanges.locker_interaction?.toFixed(1) ?? 0}%`,
-    },
   ];
 
   const formatDate = (dateString: string) => {
@@ -352,8 +334,6 @@ const AdminDashboardPage = () => {
         return <QuestionMarkCircleIcon className="h-5 w-5 text-blue-500" />;
       case "game_download":
         return <PuzzlePieceIcon className="h-5 w-5 text-green-500" />;
-      case "locker_interaction":
-        return <ChartBarIcon className="h-5 w-5 text-orange-500" />;
       default:
         return <ChartBarIcon className="h-5 w-5 text-gray-500" />;
     }
@@ -367,8 +347,6 @@ const AdminDashboardPage = () => {
         return `Quiz "${activity.itemName}" was completed`;
       case "game_download":
         return `Game "${activity.itemName}" was downloaded`;
-      case "locker_interaction":
-        return `Content locker was interacted with`;
       default:
         return "Unknown activity";
     }

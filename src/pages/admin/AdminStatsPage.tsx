@@ -78,7 +78,6 @@ const AdminStatsPage = () => {
       // Process stats
       const downloads = statsData.filter(s => s.interaction_type === 'wallpaper_download').length
       const completions = statsData.filter(s => s.interaction_type === 'quiz_completion').length
-      const interactions = statsData.filter(s => s.interaction_type === 'locker_interaction').length
       
       // Group by type
       const byType = statsData.reduce((acc: Record<string, number>, curr) => {
@@ -95,7 +94,6 @@ const AdminStatsPage = () => {
         
         if (curr.interaction_type === 'wallpaper_download') acc[date].downloads++
         if (curr.interaction_type === 'quiz_completion') acc[date].completions++
-        if (curr.interaction_type === 'locker_interaction') acc[date].interactions++
         
         return acc
       }, {})
@@ -132,12 +130,6 @@ const AdminStatsPage = () => {
         label: 'Quiz Completions',
         data: stats.dailyStats.map(s => s.completions),
         borderColor: 'rgb(244, 63, 94)',
-        tension: 0.1
-      },
-      {
-        label: 'Locker Interactions',
-        data: stats.dailyStats.map(s => s.interactions),
-        borderColor: 'rgb(34, 197, 94)',
         tension: 0.1
       }
     ]
@@ -195,15 +187,6 @@ const AdminStatsPage = () => {
           </h3>
           <p className="text-3xl font-bold text-accent-600 dark:text-accent-400">
             {stats.totalCompletions}
-          </p>
-        </div>
-        
-        <div className="bg-white dark:bg-dark-card rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-            Locker Interactions
-          </h3>
-          <p className="text-3xl font-bold text-success-600 dark:text-success-400">
-            {stats.totalInteractions}
           </p>
         </div>
       </div>

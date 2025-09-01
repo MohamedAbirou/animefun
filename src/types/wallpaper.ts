@@ -7,7 +7,6 @@ export interface Wallpaper {
   download_links: Record<WallpaperType, string>
   pack_counts: Record<string, number>
   download_count: number
-  use_locker: boolean
   created_at: string
   updated_at: string
   anime_series?: AnimeSeries | null

@@ -136,7 +136,6 @@ export interface Database {
           screenshots: string[]
           tags: string[]
           download_count: number
-          use_locker: boolean
           created_at: string
         }
         Insert: {
@@ -148,7 +147,6 @@ export interface Database {
           screenshots: string[]
           tags?: string[]
           download_count?: number
-          use_locker?: boolean
           created_at?: string
         }
         Update: {
@@ -160,7 +158,6 @@ export interface Database {
           screenshots?: string[]
           tags?: string[]
           download_count?: number
-          use_locker?: boolean
           created_at?: string
         }
         Relationships: [
@@ -248,7 +245,6 @@ export interface Database {
           questions: Json
           is_default: boolean
           completion_count: number
-          use_locker: boolean
           created_at: string
           updated_at: string
         }
@@ -262,7 +258,6 @@ export interface Database {
           questions: Json
           is_default?: boolean
           completion_count?: number
-          use_locker?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -276,7 +271,6 @@ export interface Database {
           questions?: Json
           is_default?: boolean
           completion_count?: number
-          use_locker?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -326,7 +320,6 @@ export interface Database {
           previews: Json
           download_links: Json
           download_count: number
-          use_locker: boolean
           created_at: string
           updated_at: string
         }
@@ -336,7 +329,6 @@ export interface Database {
           previews: Json
           download_links: Json
           download_count?: number
-          use_locker?: boolean
           created_at?: string
           updated_at?: string
         }
@@ -346,7 +338,6 @@ export interface Database {
           previews?: Json
           download_links?: Json
           download_count?: number
-          use_locker?: boolean
           created_at?: string
           updated_at?: string
         }
