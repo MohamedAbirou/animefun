@@ -28,14 +28,12 @@ ChartJS.register(
 interface Stats {
   totalDownloads: number
   totalCompletions: number
-  totalInteractions: number
   recentActivity: any[]
   downloadsByType: Record<string, number>
   dailyStats: {
     date: string
     downloads: number
     completions: number
-    interactions: number
   }[]
 }
 
@@ -43,7 +41,6 @@ const AdminStatsPage = () => {
   const [stats, setStats] = useState<Stats>({
     totalDownloads: 0,
     totalCompletions: 0,
-    totalInteractions: 0,
     recentActivity: [],
     downloadsByType: {},
     dailyStats: []
@@ -89,7 +86,7 @@ const AdminStatsPage = () => {
       const byDate = statsData.reduce((acc: Record<string, any>, curr) => {
         const date = format(new Date(curr.created_at), 'yyyy-MM-dd')
         if (!acc[date]) {
-          acc[date] = { downloads: 0, completions: 0, interactions: 0 }
+          acc[date] = { downloads: 0, completions: 0 }
         }
         
         if (curr.interaction_type === 'wallpaper_download') acc[date].downloads++
@@ -106,7 +103,6 @@ const AdminStatsPage = () => {
       setStats({
         totalDownloads: downloads,
         totalCompletions: completions,
-        totalInteractions: interactions,
         recentActivity: statsData.slice(0, 10),
         downloadsByType: byType,
         dailyStats: dailyStats.sort((a, b) => a.date.localeCompare(b.date))
