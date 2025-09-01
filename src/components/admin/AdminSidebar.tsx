@@ -1,19 +1,17 @@
-import { Link, NavLink } from 'react-router-dom'
 import { useSidebarStore } from '@/store/sidebarStore'
 import {
+  ChartBarIcon,
+  FilmIcon,
   HomeIcon,
   PhotoIcon,
-  QuestionMarkCircleIcon,
   PuzzlePieceIcon,
-  FilmIcon,
+  QuestionMarkCircleIcon,
   UserIcon,
-  ChartBarIcon,
   UsersIcon,
-  Cog6ToothIcon,
-  XMarkIcon,
-  CreditCardIcon
+  XMarkIcon
 } from '@heroicons/react/24/outline'
 import clsx from 'clsx'
+import { Link, NavLink } from 'react-router-dom'
 
 const navigation = [
   { name: 'Dashboard', href: '/admin', icon: HomeIcon },
@@ -22,10 +20,8 @@ const navigation = [
   { name: 'Games', href: '/admin/games', icon: PuzzlePieceIcon },
   { name: 'Anime Series', href: '/admin/series', icon: FilmIcon },
   { name: 'Characters', href: '/admin/characters', icon: UserIcon },
-  { name: 'Subscriptions', href: '/admin/subscriptions', icon: CreditCardIcon },
   { name: 'Statistics', href: '/admin/stats', icon: ChartBarIcon },
   { name: 'Admin Users', href: '/admin/users', icon: UsersIcon },
-  { name: 'Settings', href: '/admin/settings', icon: Cog6ToothIcon },
 ]
 
 const AdminSidebar = () => {

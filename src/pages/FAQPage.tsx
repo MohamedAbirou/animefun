@@ -24,8 +24,7 @@ const FAQPage = () => {
                 Is AnimeFun free to use?
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Yes, AnimeFun is free to use! Some content may require completing a quick task
-                to unlock, but there are no subscription fees or hidden charges.
+                Yes, AnimeFun is free to use!
               </p>
             </div>
           </div>

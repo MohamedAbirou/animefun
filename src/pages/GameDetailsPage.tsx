@@ -1,7 +1,6 @@
 import LoadingScreen from "@/components/common/LoadingScreen";
 import { supabase } from "@/lib/supabase";
 import { Game } from "@/types/game";
-import { useSubscriptionStore } from "@/store/subscriptionStore";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,8 +11,6 @@ const GameDetailsPage = () => {
   const [game, setGame] = useState<Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
-  // const { checkFeatureAccess, incrementUsage } = useSubscriptionStore();
-  const { incrementUsage } = useSubscriptionStore();
 
   useEffect(() => {
     fetchGame();
@@ -46,20 +43,7 @@ const GameDetailsPage = () => {
   const handleDownload = async () => {
     if (!game) return;
 
-    // Check if user has subscription access
-    // if (!checkFeatureAccess('game_download')) {
-    //   // Show subscription modal instead of error
-    //   const event = new CustomEvent('showSubscriptionModal', { 
-    //     detail: { feature: 'game downloads' } 
-    //   });
-    //   window.dispatchEvent(event);
-    //   return;
-    // }
-
     try {
-      // Increment usage
-      await incrementUsage('game_download');
-
       // Track download
       await supabase.from("stats").insert({
         interaction_type: "game_download",
