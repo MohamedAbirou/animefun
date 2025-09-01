@@ -1,14 +1,11 @@
-import { Routes, Route } from 'react-router-dom'
-import { Suspense, lazy, useEffect } from 'react'
-import RootLayout from './layouts/RootLayout'
-import AdminLayout from './layouts/AdminLayout'
-import HomePage from './pages/HomePage'
-import LoadingScreen from './components/common/LoadingScreen'
+import { Suspense, lazy } from 'react'
+import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import LoadingScreen from './components/common/LoadingScreen'
+import AdminLayout from './layouts/AdminLayout'
+import RootLayout from './layouts/RootLayout'
 import AdminPendingApproval from './pages/admin/AdminPendingApproval'
-import TawkToChat from './components/common/TawkToChat'
-import SubscriptionModal from './components/subscription/SubscriptionModal'
-import { useState } from 'react'
+import HomePage from './pages/HomePage'
 
 // Lazy-loaded pages
 const WallpapersPage = lazy(() => import('./pages/WallpapersPage'))
@@ -39,23 +36,8 @@ const AdminSeriesPage = lazy(() => import('./pages/admin/AdminSeriesPage'))
 const AdminCharactersPage = lazy(() => import('./pages/admin/AdminCharactersPage'))
 const AdminStatsPage = lazy(() => import('./pages/admin/AdminStatsPage'))
 const AdminUsersPage = lazy(() => import('./pages/admin/AdminUsersPage'))
-const AdminSettingsPage = lazy(() => import('./pages/admin/AdminSettingsPage'))
-const AdminSubscriptionsPage = lazy(() => import('./pages/admin/AdminSubscriptionsPage'))
 
 function App() {
-  const [subscriptionModal, setSubscriptionModal] = useState({ isOpen: false, feature: '' })
-
-  useEffect(() => {
-    const handleShowSubscriptionModal = (event: CustomEvent) => {
-      setSubscriptionModal({ isOpen: true, feature: event.detail.feature })
-    }
-
-    window.addEventListener('showSubscriptionModal', handleShowSubscriptionModal as EventListener)
-
-    return () => {
-      window.removeEventListener('showSubscriptionModal', handleShowSubscriptionModal as EventListener)
-    }
-  }, [])
 
   return (
     <Suspense fallback={<LoadingScreen />}>
@@ -110,20 +92,8 @@ function App() {
           <Route path="characters" element={<AdminCharactersPage />} />
           <Route path="stats" element={<AdminStatsPage />} />
           <Route path="users" element={<AdminUsersPage />} />
-          <Route path="settings" element={<AdminSettingsPage />} />
-          <Route path="subscriptions" element={<AdminSubscriptionsPage />} />
         </Route>
       </Routes>
-      
-      {/* Tawk.to Chat Widget */}
-      <TawkToChat />
-      
-      {/* Global Subscription Modal */}
-      <SubscriptionModal
-        isOpen={subscriptionModal.isOpen}
-        onClose={() => setSubscriptionModal({ isOpen: false, feature: '' })}
-        feature={subscriptionModal.feature}
-      />
     </Suspense>
   )
 }

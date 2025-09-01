@@ -1,6 +1,5 @@
 import { supabase, trackInteraction } from "@/lib/supabase";
 import { AnimeSeries, Wallpaper, WallpaperType } from "@/types/wallpaper";
-import { useSubscriptionStore } from "@/store/subscriptionStore";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 
@@ -168,17 +167,6 @@ export const useWallpaperStore = create<WallpaperState>((set, get) => ({
 
   downloadWallpaper: async (wallpaper, type) => {
     try {
-      const { checkFeatureAccess, incrementUsage } = useSubscriptionStore.getState();
-      
-      // Check if user has subscription access
-      if (!checkFeatureAccess('wallpaper_download')) {
-        // Show subscription modal instead of error
-        const event = new CustomEvent('showSubscriptionModal', { 
-          detail: { feature: 'wallpaper downloads' } 
-        });
-        window.dispatchEvent(event);
-        return;
-      }
 
       // Determine the download URL based on type
       let downloadUrl = "";
