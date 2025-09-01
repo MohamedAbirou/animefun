@@ -1,7 +1,7 @@
 import LoadingScreen from "@/components/common/LoadingScreen";
 import { supabase } from "@/lib/supabase";
 import { Quiz, QuizQuestion } from "@/types/quiz";
-import { useSubscriptionStore } from "@/store/subscriptionStore";
+// import { useSubscriptionStore } from "@/store/subscriptionStore";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,7 +17,7 @@ const QuizPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [showResults, setShowResults] = useState(false);
-  const { checkFeatureAccess } = useSubscriptionStore();
+  // const { checkFeatureAccess } = useSubscriptionStore();
 
   useEffect(() => {
     fetchQuiz();
@@ -103,14 +103,14 @@ const QuizPage = () => {
     if (!quiz) return;
 
     // Check if user has subscription access for quiz results
-    if (!checkFeatureAccess('quiz_results')) {
-      // Show subscription modal instead of error
-      const event = new CustomEvent('showSubscriptionModal', { 
-        detail: { feature: 'quiz results' } 
-      });
-      window.dispatchEvent(event);
-      return;
-    }
+    // if (!checkFeatureAccess('quiz_results')) {
+    //   // Show subscription modal instead of error
+    //   const event = new CustomEvent('showSubscriptionModal', { 
+    //     detail: { feature: 'quiz results' } 
+    //   });
+    //   window.dispatchEvent(event);
+    //   return;
+    // }
 
     try {
       // Find character with highest points

@@ -12,7 +12,8 @@ const GameDetailsPage = () => {
   const [game, setGame] = useState<Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentImage, setCurrentImage] = useState(0);
-  const { checkFeatureAccess, incrementUsage } = useSubscriptionStore();
+  // const { checkFeatureAccess, incrementUsage } = useSubscriptionStore();
+  const { incrementUsage } = useSubscriptionStore();
 
   useEffect(() => {
     fetchGame();
@@ -46,14 +47,14 @@ const GameDetailsPage = () => {
     if (!game) return;
 
     // Check if user has subscription access
-    if (!checkFeatureAccess('game_download')) {
-      // Show subscription modal instead of error
-      const event = new CustomEvent('showSubscriptionModal', { 
-        detail: { feature: 'game downloads' } 
-      });
-      window.dispatchEvent(event);
-      return;
-    }
+    // if (!checkFeatureAccess('game_download')) {
+    //   // Show subscription modal instead of error
+    //   const event = new CustomEvent('showSubscriptionModal', { 
+    //     detail: { feature: 'game downloads' } 
+    //   });
+    //   window.dispatchEvent(event);
+    //   return;
+    // }
 
     try {
       // Increment usage
