@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
 import Cookies from 'js-cookie';
 
 export default function CookieConsent() {
