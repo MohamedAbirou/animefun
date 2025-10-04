@@ -6,6 +6,7 @@ import AdminLayout from './layouts/AdminLayout'
 import RootLayout from './layouts/RootLayout'
 import AdminPendingApproval from './pages/admin/AdminPendingApproval'
 import HomePage from './pages/HomePage'
+import { Analytics } from "@vercel/analytics/react";
 
 // Lazy-loaded pages
 const WallpapersPage = lazy(() => import('./pages/WallpapersPage'))
@@ -86,6 +87,9 @@ function App() {
           <Route path="users" element={<AdminUsersPage />} />
         </Route>
       </Routes>
+      
+      {/* ✅ Analytics goes here, outside Router but inside Providers */}
+        <Analytics />
     </Suspense>
   )
 }
