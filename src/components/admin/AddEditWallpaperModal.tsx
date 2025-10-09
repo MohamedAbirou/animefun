@@ -2,6 +2,7 @@ import { supabase } from "@/lib/supabase";
 import { Wallpaper } from "@/types/wallpaper";
 import { Dialog, Transition } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
+import imageCompression from "browser-image-compression";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -127,6 +128,9 @@ export default function AddEditWallpaperModal({
   const handleFileUpload = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>, type: string) => {
       const files = e.target.files;
+      const MAX_FILE_SIZE_MB = 0.5; // 0.5 MB target
+      const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
       if (!files || files.length !== 6) {
         toast.error("Please select exactly 6 preview images");
         return;
@@ -137,28 +141,111 @@ export default function AddEditWallpaperModal({
         const totalFiles = files.length;
         let completedUploads = 0;
 
-        const uploadPromises = Array.from(files).map(async (file) => {
-          const fileExt = file.name.split(".").pop();
-          const fileName = `${crypto.randomUUID()}.${fileExt}`;
-          const filePath = `previews/${fileName}`;
-
-          const { error: uploadError } = await supabase.storage
-            .from("wallpapers")
-            .upload(filePath, file);
-
-          if (uploadError) throw uploadError;
-
-          // Update progress after each file completes
-          completedUploads++;
-          const progress = (completedUploads / totalFiles) * 100;
-          setUploadProgress((prev) => ({ ...prev, [type]: progress }));
-
-          return filePath;
+        toast("Compressing files...", {
+          // Custom styling for the first step
+          icon: "📦",
+          style: {
+            borderRadius: "12px",
+            background: "#9cb0e6", // Light blue background
+            color: "#FFFFFF", // White text
+            padding: "16px 24px",
+            fontWeight: "600",
+            boxShadow: "0 4px 14px rgba(0, 0, 0, 0.2)",
+          },
+          // Note: We don't set a duration here so it stays until dismissed (or overwritten)
+          duration: 2000, // Short duration for compression step
         });
 
-        const paths = await Promise.all(uploadPromises);
+        // Upload both preview (800px) and thumbnail (300px) and return preview paths
+        const compressedFiles = await Promise.all(
+          Array.from(files).map(async (file, index) => {
+            // --- 1) Create preview (800px) and thumbnail (300px)
+            async function compressToFile(
+              srcFile: File | Blob,
+              maxSizeMB: number,
+              maxDim: number,
+              suffix: string
+            ) {
+              const compressedBlob = await imageCompression(srcFile as File, {
+                maxSizeMB,
+                maxWidthOrHeight: maxDim,
+                useWebWorker: true,
+                initialQuality: 0.8,
+              });
 
-        setValue(`previews.${type}`, paths, { shouldDirty: true });
+              // Ensure we have a File object (so Supabase upload gets a name/type)
+              const name = (file as File).name || `image-${index}.jpg`;
+              return new File(
+                [compressedBlob],
+                `${crypto.randomUUID()}${suffix}.${
+                  name.split(".").pop() || "jpg"
+                }`,
+                { type: compressedBlob.type || "image/jpeg" }
+              );
+            }
+
+            // preview ~800px, thumbnail ~300px
+            const previewFile = await compressToFile(
+              file,
+              MAX_FILE_SIZE_MB,
+              800,
+              "-preview"
+            );
+            const thumbFile = await compressToFile(
+              file,
+              MAX_FILE_SIZE_MB / 2,
+              300,
+              "-thumb"
+            ); // smaller thumbnail
+
+            // Double-check sizes
+            if (previewFile.size > MAX_FILE_SIZE_BYTES) {
+              toast.error(
+                `${file.name} is still too large after compression (preview).`
+              );
+              throw new Error("Preview too large");
+            }
+
+            // --- 2) Upload preview and thumbnail
+            const previewPath = `previews/${previewFile.name}`;
+            const thumbPath = `previews/thumbs/${thumbFile.name}`;
+
+            // upload preview
+            let { error: uploadError } = await supabase.storage
+              .from("wallpapers")
+              .upload(previewPath, previewFile, {
+                cacheControl: "31536000", // 1 year browser cache (CDN uses smarter caching if on Pro)
+                upsert: false,
+                contentType: previewFile.type,
+              });
+
+            if (uploadError) throw uploadError;
+
+            // upload thumbnail
+            ({ error: uploadError } = await supabase.storage
+              .from("wallpapers")
+              .upload(thumbPath, thumbFile, {
+                cacheControl: "31536000",
+                upsert: false,
+                contentType: thumbFile.type,
+              }));
+
+            if (uploadError) throw uploadError;
+
+            // update progress
+            completedUploads++;
+            const progress = (completedUploads / totalFiles) * 100;
+            setUploadProgress((prev) => ({ ...prev, [type]: progress }));
+
+            // return the preview path (you can store both previewPath & thumbPath in DB)
+            return { previewPath, thumbPath };
+          })
+        );
+
+        // paths is an array of { previewPath, thumbPath }
+        // store the preview paths in the form state (map to simple array of preview paths)
+        const previewPaths = compressedFiles.map((cf) => cf.previewPath);
+        setValue(`previews.${type}`, previewPaths, { shouldDirty: true });
         setExpandedType(type);
         toast.success(`${type} previews uploaded successfully`);
       } catch (error) {

@@ -20,10 +20,7 @@ interface DashboardStats {
 }
 
 interface RecentActivity {
-  type:
-    | "wallpaper_download"
-    | "quiz_completion"
-    | "game_download";
+  type: "wallpaper_download" | "quiz_completion" | "game_download";
   item_id: string;
   created_at: string;
   itemName?: string;
@@ -59,8 +56,8 @@ const AdminDashboardPage = () => {
   // Get date range based on selected period
   const getDateRange = (period: PeriodFilter): [Date, Date] => {
     const now = new Date();
-    const startDate = new Date();
     const endDate = new Date();
+    const startDate = new Date();
 
     switch (period) {
       case "today":
@@ -68,25 +65,32 @@ const AdminDashboardPage = () => {
         endDate.setHours(23, 59, 59, 999);
         break;
       case "yesterday":
-        startDate.setDate(startDate.getDate() - 1);
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        startDate.setTime(yesterday.getTime());
         startDate.setHours(0, 0, 0, 0);
-        endDate.setDate(endDate.getDate() - 1);
+        endDate.setTime(yesterday.getTime());
         endDate.setHours(23, 59, 59, 999);
         break;
       case "7d":
         startDate.setDate(now.getDate() - 7);
+        startDate.setHours(0, 0, 0, 0);
         break;
       case "14d":
         startDate.setDate(now.getDate() - 14);
+        startDate.setHours(0, 0, 0, 0);
         break;
       case "30d":
         startDate.setDate(now.getDate() - 30);
+        startDate.setHours(0, 0, 0, 0);
         break;
       case "90d":
         startDate.setDate(now.getDate() - 90);
+        startDate.setHours(0, 0, 0, 0);
         break;
       case "all":
-        startDate.setFullYear(startDate.getFullYear() - 10); // Everything
+        startDate.setFullYear(2000, 0, 1);
+        startDate.setHours(0, 0, 0, 0);
         break;
     }
 
@@ -99,12 +103,10 @@ const AdminDashboardPage = () => {
 
       try {
         const [currentStart, currentEnd] = getDateRange(selectedPeriod);
-        const previousStart = new Date(currentStart);
-        previousStart.setDate(
-          previousStart.getDate() -
-            currentStart.getDate() +
-            currentEnd.getDate()
-        );
+
+        const periodDuration = currentEnd.getTime() - currentStart.getTime();
+        const previousEnd = new Date(currentStart);
+        const previousStart = new Date(currentStart.getTime() - periodDuration);
 
         const [
           { count: wallpaperCount },
@@ -161,18 +163,18 @@ const AdminDashboardPage = () => {
             const previous = await getInteractionCount(
               type,
               previousStart,
-              currentStart
+              previousEnd
             );
 
-            // Calculate percentage change, capped at 100%
-            const rawChange =
-              previous === 0
-                ? current > 0
-                  ? 100
-                  : 0
-                : ((current - previous) / previous) * 100;
-
-            const change = Math.min(Math.max(rawChange, -100), 100);
+            // Calculate percentage change
+            let change = 0;
+            if (previous === 0 && current === 0) {
+              change = 0;
+            } else if (previous === 0 && current > 0) {
+              change = 100;
+            } else if (previous > 0) {
+              change = ((current - previous) / previous) * 100;
+            }
 
             return { type, current, previous, change };
           })

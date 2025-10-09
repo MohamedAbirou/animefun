@@ -1,108 +1,154 @@
-import { supabase } from '@/lib/supabase'
-import { AnimeSeries } from '@/types/wallpaper'
-import { Dialog, Transition } from '@headlessui/react'
-import { Fragment, useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
+import { supabase } from "@/lib/supabase";
+import { AnimeSeries } from "@/types/wallpaper";
+import { Dialog, Transition } from "@headlessui/react";
+import imageCompression from "browser-image-compression";
+import { Fragment, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 interface Props {
-  isOpen: boolean
-  onClose: () => void
-  series?: AnimeSeries
-  onSuccess: () => void
+  isOpen: boolean;
+  onClose: () => void;
+  series?: AnimeSeries;
+  onSuccess: () => void;
 }
 
-export default function AddEditSeriesModal({ isOpen, onClose, series, onSuccess }: Props) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [coverImage, setCoverImage] = useState<string | null>(series?.cover_image || null)
-  const [coverLoading, setCoverLoading] = useState(false)
-  const { register, handleSubmit, formState: { errors }, reset } = useForm({
+export default function AddEditSeriesModal({
+  isOpen,
+  onClose,
+  series,
+  onSuccess,
+}: Props) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [coverImage, setCoverImage] = useState<string | null>(
+    series?.cover_image || null
+  );
+  const [coverLoading, setCoverLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
     defaultValues: series || {
-      name: '',
-      description: '',
-      cover_image: ''
-    }
-  })
+      name: "",
+      description: "",
+      cover_image: "",
+    },
+  });
 
   useEffect(() => {
     if (series) {
-      reset(series)
-      console.log("Series: ", series)
+      reset(series);
     } else {
-      reset({ name: '', description: '', cover_image: '' })
+      reset({ name: "", description: "", cover_image: "" });
     }
-  }, [series, reset])
+  }, [series, reset]);
 
   const onSubmit = async (data: any) => {
     try {
-      setIsSubmitting(true)
-  
+      setIsSubmitting(true);
+
       const payload = {
         ...data,
         cover_image: coverImage,
-      }
-  
+      };
+
       if (series) {
         const { error } = await supabase
-          .from('anime_series')
+          .from("anime_series")
           .update({
             ...payload,
             updated_at: new Date().toISOString(),
           })
-          .eq('id', series.id)
-  
-        if (error) throw error
-  
-        toast.success('Series updated successfully')
+          .eq("id", series.id);
+
+        if (error) throw error;
+
+        toast.success("Series updated successfully");
       } else {
-        const { error } = await supabase.from('anime_series').insert(payload)
-        if (error) throw error
-        toast.success('Series created successfully')
+        const { error } = await supabase.from("anime_series").insert(payload);
+        if (error) throw error;
+        toast.success("Series created successfully");
       }
-  
-      onSuccess()
-      onClose()
-      reset()
-      setCoverImage(null)
+
+      onSuccess();
+      onClose();
+      reset();
+      setCoverImage(null);
     } catch (error: any) {
-      console.error('Error saving series:', error.message || error)
-      toast.error('Failed to save series. Please ensure you have admin permissions.')
+      console.error("Error saving series:", error.message || error);
+      toast.error(
+        "Failed to save series. Please ensure you have admin permissions."
+      );
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    
-    setCoverLoading(true)
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setCoverLoading(true);
+
+    const MAX_FILE_SIZE_MB = 1;
+    const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
     try {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${crypto.randomUUID()}.${fileExt}`
-      const filePath = fileName // Upload directly to bucket root
+      // 1️⃣ Show "compressing" toast
+      const compressToastId = toast.loading("Compressing cover image...");
+
+      let processedFile = file;
+
+      if (file.size > MAX_FILE_SIZE_BYTES) {
+        processedFile = await imageCompression(file, {
+          maxSizeMB: MAX_FILE_SIZE_MB,
+          maxWidthOrHeight: 1200,
+          useWebWorker: true,
+          initialQuality: 0.8,
+        });
+        toast.success("Compression complete ✅", { id: compressToastId });
+      } else {
+        toast.dismiss(compressToastId); // remove toast quickly if no compression
+      }
+
+      // 2️⃣ Show "uploading" toast
+      const uploadToastId = toast.loading("Uploading cover image...");
+
+      const fileExt = processedFile.name.split(".").pop();
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
+      const filePath = fileName;
 
       const { error: uploadError } = await supabase.storage
-        .from('anime_series')
-        .upload(filePath, file)
+        .from("anime_series")
+        .upload(filePath, processedFile, {
+          cacheControl: "31536000",
+          upsert: false,
+          contentType: processedFile.type,
+        });
 
-      if (uploadError) throw uploadError
+      if (uploadError) throw uploadError;
 
-      // Get the public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('anime_series')
-        .getPublicUrl(filePath)
+      // 3️⃣ Success toast
+      toast.success("Cover uploaded successfully 🎉", { id: uploadToastId });
 
-      // Update the form with the cover image URL
-      return publicUrl
+      // 4️⃣ Get the public URL
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("anime_series").getPublicUrl(filePath);
+
+      return publicUrl;
     } catch (error: any) {
-      console.error('Upload error:', error.message || error)
-      toast.error('Failed to upload cover image. Please ensure the storage bucket exists.')
-      return null
+      console.error("Upload error:", error.message || error);
+      toast.error(
+        "Failed to upload cover image. Please ensure the bucket exists."
+      );
+      return null;
     } finally {
-      setCoverLoading(false)
+      setCoverLoading(false);
     }
-  }
+  };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -135,21 +181,26 @@ export default function AddEditSeriesModal({ isOpen, onClose, series, onSuccess 
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
                 >
-                  {series ? 'Edit Series' : 'Add New Series'}
+                  {series ? "Edit Series" : "Add New Series"}
                 </Dialog.Title>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="mt-4 space-y-4">
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="mt-4 space-y-4"
+                >
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Name
                     </label>
                     <input
                       type="text"
-                      {...register('name', { required: 'Name is required' })}
+                      {...register("name", { required: "Name is required" })}
                       className="form-input"
                     />
                     {errors.name && (
-                      <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                      <p className="mt-1 text-sm text-red-600">
+                        {errors.name.message}
+                      </p>
                     )}
                   </div>
 
@@ -158,7 +209,7 @@ export default function AddEditSeriesModal({ isOpen, onClose, series, onSuccess 
                       Description
                     </label>
                     <textarea
-                      {...register('description')}
+                      {...register("description")}
                       rows={3}
                       className="form-input"
                     />
@@ -168,7 +219,7 @@ export default function AddEditSeriesModal({ isOpen, onClose, series, onSuccess 
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                       Cover Image
                     </label>
-                  
+
                     {coverLoading ? (
                       <div className="mb-2 flex items-center justify-center h-48 border rounded-lg bg-gray-100 dark:bg-gray-700">
                         <span className="text-sm text-gray-500 dark:text-gray-300 animate-pulse">
@@ -191,13 +242,13 @@ export default function AddEditSeriesModal({ isOpen, onClose, series, onSuccess 
                         </button>
                       </div>
                     ) : null}
-                  
+
                     <input
                       type="file"
                       accept="image/*"
                       onChange={async (e) => {
-                        const url = await handleCoverUpload(e)
-                        if (url) setCoverImage(url)
+                        const url = await handleCoverUpload(e);
+                        if (url) setCoverImage(url);
                       }}
                       className="block w-full text-sm text-gray-500
                         file:mr-4 file:py-2 file:px-4
@@ -220,8 +271,8 @@ export default function AddEditSeriesModal({ isOpen, onClose, series, onSuccess 
                       type="submit"
                       disabled={isSubmitting}
                       className="btn btn-primary"
-                      >
-                      {isSubmitting ? 'Saving...' : 'Save'}
+                    >
+                      {isSubmitting ? "Saving..." : "Save"}
                     </button>
                   </div>
                 </form>
@@ -231,5 +282,5 @@ export default function AddEditSeriesModal({ isOpen, onClose, series, onSuccess 
         </div>
       </Dialog>
     </Transition>
-  )
+  );
 }
