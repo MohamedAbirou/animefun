@@ -40,6 +40,10 @@
   .form-input {
     @apply block w-full rounded-md border border-gray-300 bg-white px-2 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-dark-card dark:text-white;
   }
+
+  .select-input {
+    @apply rounded-md border border-gray-300 bg-white px-2 py-2 text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-dark-card dark:text-white;
+  }
   
   .form-label {
     @apply mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300;

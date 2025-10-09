@@ -1,4 +1,4 @@
-import { supabase, adminSupabase } from "@/lib/supabase";
+import { adminSupabase, supabase } from "@/lib/supabase";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -88,15 +88,15 @@ const AdminUsersPage = () => {
         .eq("id", userId);
 
       if (adminError) throw adminError;
-
+      
       // Delete from users table
       const { error: userError } = await supabase
-        .from("users")
-        .delete()
-        .eq("id", userId);
-
+      .from("users")
+      .delete()
+      .eq("id", userId);
+      
       if (userError) throw userError;
-
+      
       // Delete the auth user using the admin client
       const { error: authError } = await adminSupabase.auth.admin.deleteUser(
         userId
