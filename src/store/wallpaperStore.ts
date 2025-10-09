@@ -197,6 +197,12 @@ export const useWallpaperStore = create<WallpaperState>((set, get) => ({
       // Track interaction
       await trackInteraction("wallpaper_download", wallpaper.id);
 
+      // Update download count
+      await supabase
+        .from("wallpapers")
+        .update({ download_count: (wallpaper.download_count || 0) + 1 })
+        .eq("id", wallpaper.id);
+
       // Trigger download
       const link = document.createElement("a");
       link.href = downloadUrl;
