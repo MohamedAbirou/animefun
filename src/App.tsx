@@ -6,6 +6,9 @@ import AdminLayout from './layouts/AdminLayout'
 import RootLayout from './layouts/RootLayout'
 import AdminPendingApproval from './pages/admin/AdminPendingApproval'
 import HomePage from './pages/HomePage'
+import { Analytics } from "@vercel/analytics/react";
+import CookieConsent from "./components/CookieConsent";
+import Cookies from "js-cookie";
 
 // Lazy-loaded pages
 const WallpapersPage = lazy(() => import('./pages/WallpapersPage'))
@@ -35,6 +38,7 @@ const AdminStatsPage = lazy(() => import('./pages/admin/AdminStatsPage'))
 const AdminUsersPage = lazy(() => import('./pages/admin/AdminUsersPage'))
 
 function App() {
+  const hasConsent = Cookies.get('cookie-consent') === 'accepted';
 
   return (
     <Suspense fallback={<LoadingScreen />}>
@@ -86,6 +90,9 @@ function App() {
           <Route path="users" element={<AdminUsersPage />} />
         </Route>
       </Routes>
+      
+      {hasConsent && <Analytics />}
+        <CookieConsent />
     </Suspense>
   )
 }
