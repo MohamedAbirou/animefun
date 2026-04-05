@@ -79,6 +79,14 @@ const Footer = () => {
             <ul className="mt-4 space-y-2">
               <li>
                 <Link
+                  to="/about"
+                  className="text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
+                >
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/privacy-policy"
                   className="text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
                 >
