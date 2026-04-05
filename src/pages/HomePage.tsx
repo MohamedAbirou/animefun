@@ -62,7 +62,7 @@ const HomePage = () => {
         description="Explore thousands of anime wallpapers for desktop and mobile, take personality quizzes to find your anime character match, and download free anime games."
         canonical="/"
       />
-      {/* Hero Section */}}
+      {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-primary-700 to-secondary-900 text-white overflow-hidden">
         <div className="absolute inset-0">
           <img
