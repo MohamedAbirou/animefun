@@ -79,7 +79,7 @@ const Footer = () => {
             <ul className="mt-4 space-y-2">
               <li>
                 <Link
-                  to="#"
+                  to="/privacy-policy"
                   className="text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
                 >
                   Privacy Policy
@@ -87,7 +87,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="#"
+                  to="/terms-of-service"
                   className="text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
                 >
                   Terms of Service
@@ -95,7 +95,15 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  to="#"
+                  to="/faq"
+                  className="text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
+                >
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/copyright"
                   className="text-gray-600 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400"
                 >
                   Copyright
