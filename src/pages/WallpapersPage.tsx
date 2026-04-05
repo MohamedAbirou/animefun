@@ -1,57 +1,76 @@
-import { useEffect, useState } from 'react'
-import { useWallpaperStore } from '@/store/wallpaperStore'
-import { Link } from 'react-router-dom'
-import { AnimeSeries, WallpaperType } from '@/types/wallpaper'
+import { useEffect, useState } from "react";
+import { useWallpaperStore } from "@/store/wallpaperStore";
+import { Link } from "react-router-dom";
+import { AnimeSeries, WallpaperType } from "@/types/wallpaper";
+import { SEOHead } from "@/components/SEOHead";
 
 const WallpapersPage = () => {
-  const { wallpapers, series, isLoading, currentPage, totalPages, filters, fetchWallpapers, fetchSeries } = useWallpaperStore()
-  const [selectedType, setSelectedType] = useState<WallpaperType | undefined>(undefined)
-  const [selectedSeries, setSelectedSeries] = useState<string | undefined>(undefined)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [visibleItems, setVisibleItems] = useState(12) // Initial number of items to show
-  
+  const {
+    wallpapers,
+    series,
+    isLoading,
+    currentPage,
+    totalPages,
+    filters,
+    fetchWallpapers,
+    fetchSeries,
+  } = useWallpaperStore();
+  const [selectedType, setSelectedType] = useState<WallpaperType | undefined>(
+    undefined,
+  );
+  const [selectedSeries, setSelectedSeries] = useState<string | undefined>(
+    undefined,
+  );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [visibleItems, setVisibleItems] = useState(12); // Initial number of items to show
+
   useEffect(() => {
-    fetchWallpapers()
-    fetchSeries()
-  }, [])
-  
+    fetchWallpapers();
+    fetchSeries();
+  }, []);
+
   const handleFilter = () => {
     fetchWallpapers(1, {
       type: selectedType,
       seriesId: selectedSeries,
-      query: searchQuery || undefined
-    })
-  }
-  
+      query: searchQuery || undefined,
+    });
+  };
+
   const handlePageChange = (page: number) => {
-    fetchWallpapers(page, filters)
-  }
+    fetchWallpapers(page, filters);
+  };
 
   // Intersection Observer for infinite scroll
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && visibleItems < wallpapers.length) {
-          setVisibleItems(prev => Math.min(prev + 12, wallpapers.length))
+          setVisibleItems((prev) => Math.min(prev + 12, wallpapers.length));
         }
       },
-      { threshold: 0.1 }
-    )
+      { threshold: 0.1 },
+    );
 
-    const sentinel = document.getElementById('scroll-sentinel')
+    const sentinel = document.getElementById("scroll-sentinel");
     if (sentinel) {
-      observer.observe(sentinel)
+      observer.observe(sentinel);
     }
 
-    return () => observer.disconnect()
-  }, [visibleItems, wallpapers.length])
-  
+    return () => observer.disconnect();
+  }, [visibleItems, wallpapers.length]);
+
   return (
     <div className="container mx-auto px-4 py-8">
+      <SEOHead
+        title="Anime Wallpapers — HD Desktop & Mobile Anime Wallpapers"
+        description="Browse thousands of high-quality anime wallpapers for desktop and mobile. Filter by series, character, and style. Free to download."
+        canonical="/wallpapers"
+      />
       <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
         Anime Wallpapers
       </h1>
-      
+
       {/* Filters */}
       <div className="bg-white dark:bg-dark-card rounded-lg shadow p-6 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -60,8 +79,10 @@ const WallpapersPage = () => {
               Type
             </label>
             <select
-              value={selectedType || ''}
-              onChange={(e) => setSelectedType(e.target.value as WallpaperType || undefined)}
+              value={selectedType || ""}
+              onChange={(e) =>
+                setSelectedType((e.target.value as WallpaperType) || undefined)
+              }
               className="form-input"
             >
               <option value="">All Types</option>
@@ -71,23 +92,25 @@ const WallpapersPage = () => {
               <option value="mobile_sketchy">Mobile Sketchy</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Anime Series
             </label>
             <select
-              value={selectedSeries || ''}
+              value={selectedSeries || ""}
               onChange={(e) => setSelectedSeries(e.target.value || undefined)}
               className="form-input"
             >
               <option value="">All Series</option>
               {series.map((s: AnimeSeries) => (
-                <option key={s.id} value={s.id}>{s.name}</option>
+                <option key={s.id} value={s.id}>
+                  {s.name}
+                </option>
               ))}
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Search
@@ -101,17 +124,14 @@ const WallpapersPage = () => {
             />
           </div>
         </div>
-        
+
         <div className="mt-4 flex justify-end">
-          <button
-            onClick={handleFilter}
-            className="btn btn-primary"
-          >
+          <button onClick={handleFilter} className="btn btn-primary">
             Apply Filters
           </button>
         </div>
       </div>
-      
+
       {/* Wallpapers Grid */}
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -156,29 +176,31 @@ const WallpapersPage = () => {
               </Link>
             ))}
           </div>
-          
+
           {/* Infinite scroll sentinel */}
           {visibleItems < wallpapers.length && (
             <div id="scroll-sentinel" className="h-10" />
           )}
-          
+
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="mt-8 flex justify-center">
               <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                      currentPage === page
-                        ? 'z-10 bg-primary-50 border-primary-500 text-primary-600'
-                        : 'bg-white dark:bg-dark-card border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                        currentPage === page
+                          ? "z-10 bg-primary-50 border-primary-500 text-primary-600"
+                          : "bg-white dark:bg-dark-card border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ),
+                )}
               </nav>
             </div>
           )}
@@ -191,7 +213,7 @@ const WallpapersPage = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default WallpapersPage
+export default WallpapersPage;

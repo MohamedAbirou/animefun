@@ -1,59 +1,65 @@
-import LoadingScreen from '@/components/common/LoadingScreen'
-import { supabase } from '@/lib/supabase'
-import { Game } from '@/types/game'
-import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import LoadingScreen from "@/components/common/LoadingScreen";
+import { supabase } from "@/lib/supabase";
+import { Game } from "@/types/game";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { SEOHead } from "@/components/SEOHead";
 
 const GamesPage = () => {
-  const [games, setGames] = useState<Game[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [selectedTag, setSelectedTag] = useState<string>('')
-  const [searchQuery, setSearchQuery] = useState('')
-  
+  const [games, setGames] = useState<Game[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedTag, setSelectedTag] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
-    fetchGames()
-  }, [])
-  
+    fetchGames();
+  }, []);
+
   const fetchGames = async () => {
     try {
-      setIsLoading(true)
-      
+      setIsLoading(true);
+
       let query = supabase
-        .from('games')
-        .select('*')
-        .order('download_count', { ascending: false })
-        .order("created_at", { ascending: false })
-      
+        .from("games")
+        .select("*")
+        .order("download_count", { ascending: false })
+        .order("created_at", { ascending: false });
+
       if (selectedTag) {
-        query = query.contains('tags', [selectedTag])
+        query = query.contains("tags", [selectedTag]);
       }
-      
+
       if (searchQuery) {
-        query = query.ilike('title', `%${searchQuery}%`)
+        query = query.ilike("title", `%${searchQuery}%`);
       }
-      
-      const { data, error } = await query
-      
-      if (error) throw error
-      
-      setGames(data as Game[])
+
+      const { data, error } = await query;
+
+      if (error) throw error;
+
+      setGames(data as Game[]);
     } catch (error) {
-      console.error('Error fetching games:', error)
+      console.error("Error fetching games:", error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
-  
+  };
+
   if (isLoading) {
-    return <LoadingScreen />
+    return <LoadingScreen />;
   }
-  
+
   return (
     <div className="container mx-auto px-4 py-8">
+      <SEOHead
+        title="Free Anime Mobile Games — Download Anime Games for Android"
+        description="Download free anime mobile games for Android. APK files for the best anime-themed games, updated regularly. No account required."
+        canonical="/games"
+      />
       <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
         Mobile Games
       </h1>
-      
+
       {/* Filters */}
       <div className="bg-white dark:bg-dark-card rounded-lg shadow p-6 mb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -69,7 +75,7 @@ const GamesPage = () => {
               className="form-input"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Tag
@@ -82,18 +88,15 @@ const GamesPage = () => {
               className="form-input"
             />
           </div>
-          
+
           <div className="flex items-end">
-            <button
-              onClick={fetchGames}
-              className="btn btn-primary w-full"
-            >
+            <button onClick={fetchGames} className="btn btn-primary w-full">
               Apply Filters
             </button>
           </div>
         </div>
       </div>
-      
+
       {/* Games Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {games.map((game) => (
@@ -109,16 +112,16 @@ const GamesPage = () => {
                 className="w-full h-48 object-cover"
               />
             )}
-            
+
             <div className="p-6">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 {game.title}
               </h3>
-              
+
               <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
                 {game.description}
               </p>
-              
+
               <div className="flex flex-wrap gap-2 mb-4">
                 {game.tags.map((tag) => (
                   <span
@@ -129,7 +132,7 @@ const GamesPage = () => {
                   </span>
                 ))}
               </div>
-              
+
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-500 dark:text-gray-400">
                   {game.download_count} downloads
@@ -142,7 +145,7 @@ const GamesPage = () => {
           </Link>
         ))}
       </div>
-      
+
       {games.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-600 dark:text-gray-400">
@@ -151,7 +154,7 @@ const GamesPage = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default GamesPage
+export default GamesPage;

@@ -4,6 +4,7 @@ import { Quiz } from "@/types/quiz";
 import { Wallpaper } from "@/types/wallpaper";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { SEOHead } from "@/components/SEOHead";
 
 const HomePage = () => {
   const [featuredWallpapers, setFeaturedWallpapers] = useState<Wallpaper[]>([]);
@@ -56,7 +57,12 @@ const HomePage = () => {
 
   return (
     <div>
-      {/* Hero Section */}
+      <SEOHead
+        title="AnimeFun — Free Anime Wallpapers, Personality Quizzes & Mobile Games"
+        description="Explore thousands of anime wallpapers for desktop and mobile, take personality quizzes to find your anime character match, and download free anime games."
+        canonical="/"
+      />
+      {/* Hero Section */}}
       <section className="relative bg-gradient-to-br from-primary-700 to-secondary-900 text-white overflow-hidden">
         <div className="absolute inset-0">
           <img

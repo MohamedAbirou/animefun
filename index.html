@@ -1,17 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AnimeFun - Anime Wallpapers, Quizzes & Games</title>
-    <meta name="description" content="Discover amazing anime wallpapers, personality quizzes, and mobile games for anime fans." />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body class="min-h-screen bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 transition-colors duration-200">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="en" dir="ltr" prefix="og: https://ogp.me/ns#">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <!-- ═══ Primary Meta ═══ -->
+  <title>AnimeFun — Free Anime Wallpapers, Personality Quizzes & Mobile Games</title>
+  <meta name="description"
+    content="Discover thousands of high-quality anime wallpapers, take personality quizzes to find your anime character match, and download free anime mobile games. The ultimate anime fan platform." />
+  <meta name="author" content="AnimeFun" />
+
+  <!-- ═══ Canonical & Sitemap ═══ -->
+  <link rel="canonical" href="https://animefun.space/" />
+  <link rel="sitemap" type="application/xml" href="https://animefun.space/sitemap.xml" />
+
+  <!-- ═══ Robots ═══ -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+  <!-- ═══ Open Graph ═══ -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="AnimeFun" />
+  <meta property="og:title" content="AnimeFun — Free Anime Wallpapers, Quizzes & Games" />
+  <meta property="og:description"
+    content="Thousands of anime wallpapers for desktop and mobile, personality quizzes, and free anime games — all in one place." />
+  <meta property="og:url" content="https://animefun.space/" />
+  <meta property="og:image" content="https://animefun.space/og-image.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="AnimeFun — Anime Wallpapers, Quizzes & Games" />
+  <meta property="og:image:type" content="image/svg+xml" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- ═══ Twitter Card ═══ -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AnimeFun — Free Anime Wallpapers, Quizzes & Games" />
+  <meta name="twitter:description"
+    content="Thousands of anime wallpapers, personality quizzes, and free anime games for every anime fan. 100% free." />
+  <meta name="twitter:image" content="https://animefun.space/og-image.svg" />
+  <meta name="twitter:image:alt" content="AnimeFun — Anime Wallpapers, Quizzes & Games" />
+
+  <!-- ═══ PWA / Mobile ═══ -->
+  <meta name="theme-color" content="#7C3AED" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="AnimeFun" />
+  <meta name="application-name" content="AnimeFun" />
+
+  <!-- ═══ Favicon ═══ -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+
+  <!-- ═══ Preconnect ═══ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <!-- ═══ JSON-LD: Organization ═══ -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "AnimeFun",
+      "url": "https://animefun.space",
+      "logo": "https://animefun.space/favicon.svg",
+      "description": "The ultimate anime fan platform with free wallpapers, personality quizzes, and mobile games.",
+      "sameAs": []
+    }
+    </script>
+
+  <!-- ═══ JSON-LD: WebApplication ═══ -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AnimeFun",
+      "url": "https://animefun.space",
+      "applicationCategory": "EntertainmentApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free anime wallpapers, personality quizzes, and mobile games"
+      },
+      "featureList": [
+        "High-quality anime wallpapers for desktop and mobile",
+        "Anime personality quizzes",
+        "Free anime mobile games (APK)",
+        "Dark mode support",
+        "Character and series collections"
+      ]
+    }
+    </script>
+
+  <!-- ═══ JSON-LD: WebSite ═══ -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "AnimeFun",
+      "url": "https://animefun.space",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://animefun.space/wallpapers?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+  <!-- ═══ JSON-LD: BreadcrumbList ═══ -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home",       "item": "https://animefun.space/" },
+        { "@type": "ListItem", "position": 2, "name": "Wallpapers", "item": "https://animefun.space/wallpapers" },
+        { "@type": "ListItem", "position": 3, "name": "Quizzes",    "item": "https://animefun.space/quizzes" },
+        { "@type": "ListItem", "position": 4, "name": "Games",      "item": "https://animefun.space/games" },
+        { "@type": "ListItem", "position": 5, "name": "FAQ",        "item": "https://animefun.space/faq" }
+      ]
+    }
+    </script>
+</head>
+
+<body class="min-h-screen bg-gray-50 text-gray-900 dark:bg-dark-bg dark:text-gray-100 transition-colors duration-200">
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3956126246815498"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

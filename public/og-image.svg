@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0a1e"/>
+      <stop offset="100%" style="stop-color:#1a0a3e"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a855f7"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Glow blobs -->
+  <ellipse cx="1080" cy="100" rx="220" ry="180" fill="url(#glow1)"/>
+  <ellipse cx="120" cy="530" rx="180" ry="140" fill="url(#glow1)"/>
+
+  <!-- Star decorations -->
+  <circle cx="950" cy="180" r="2" fill="#a855f7" opacity="0.8"/>
+  <circle cx="1050" cy="300" r="1.5" fill="#e879f9" opacity="0.6"/>
+  <circle cx="870" cy="420" r="2.5" fill="#a855f7" opacity="0.5"/>
+  <circle cx="200" cy="150" r="2" fill="#e879f9" opacity="0.7"/>
+  <circle cx="150" cy="350" r="1.5" fill="#a855f7" opacity="0.6"/>
+  <circle cx="300" cy="500" r="2" fill="#e879f9" opacity="0.5"/>
+
+  <!-- Logo star / sparkle icon -->
+  <g transform="translate(80, 185)">
+    <circle cx="60" cy="60" r="58" fill="#7c3aed" opacity="0.15"/>
+    <circle cx="60" cy="60" r="58" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.5"/>
+    <!-- Sparkle -->
+    <polygon points="60,10 68,48 108,48 76,70 88,108 60,86 32,108 44,70 12,48 52,48" fill="url(#purple)" opacity="0.9"/>
+  </g>
+
+  <!-- AnimeFun title -->
+  <text x="210" y="262" font-family="system-ui, -apple-system, sans-serif" font-size="76" font-weight="800" fill="#f8fafc" letter-spacing="-2">
+    AnimeFun
+  </text>
+
+  <!-- Tagline -->
+  <text x="210" y="315" font-family="system-ui, -apple-system, sans-serif" font-size="27" font-weight="400" fill="#a78bfa">
+    Anime Wallpapers · Quizzes · Mobile Games
+  </text>
+
+  <!-- Feature pills -->
+  <g transform="translate(80, 370)">
+    <rect x="0" y="0" width="245" height="46" rx="23" fill="#7c3aed" opacity="0.2"/>
+    <rect x="0" y="0" width="245" height="46" rx="23" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.5"/>
+    <text x="122" y="29" font-family="system-ui, sans-serif" font-size="18" font-weight="500" fill="#c084fc" text-anchor="middle">🖼️ HD Wallpapers</text>
+
+    <rect x="265" y="0" width="245" height="46" rx="23" fill="#7c3aed" opacity="0.2"/>
+    <rect x="265" y="0" width="245" height="46" rx="23" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.5"/>
+    <text x="387" y="29" font-family="system-ui, sans-serif" font-size="18" font-weight="500" fill="#c084fc" text-anchor="middle">🧠 Personality Quizzes</text>
+
+    <rect x="530" y="0" width="220" height="46" rx="23" fill="#7c3aed" opacity="0.2"/>
+    <rect x="530" y="0" width="220" height="46" rx="23" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.5"/>
+    <text x="640" y="29" font-family="system-ui, sans-serif" font-size="18" font-weight="500" fill="#c084fc" text-anchor="middle">🎮 Free Games</text>
+
+    <rect x="770" y="0" width="220" height="46" rx="23" fill="#7c3aed" opacity="0.2"/>
+    <rect x="770" y="0" width="220" height="46" rx="23" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.5"/>
+    <text x="880" y="29" font-family="system-ui, sans-serif" font-size="18" font-weight="500" fill="#c084fc" text-anchor="middle">🌙 Dark Mode</text>
+  </g>
+
+  <!-- Sub tagline -->
+  <text x="80" y="490" font-family="system-ui, -apple-system, sans-serif" font-size="21" font-weight="400" fill="#6d28d9" opacity="0.9">
+    100% Free · Desktop &amp; Mobile Wallpapers · All Your Favorite Anime Series
+  </text>
+
+  <!-- URL -->
+  <text x="80" y="575" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="700" fill="#a855f7" letter-spacing="1">
+    animefun.space
+  </text>
+</svg>

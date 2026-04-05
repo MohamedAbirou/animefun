@@ -3,6 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { Quiz } from "@/types/quiz";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { SEOHead } from "@/components/SEOHead";
 
 interface QuizzesByAnime {
   [animeId: string]: {
@@ -70,6 +71,11 @@ const QuizzesPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <SEOHead
+        title="Anime Personality Quizzes — Which Anime Character Are You?"
+        description="Take free anime personality quizzes and discover which anime character matches your personality. Quizzes for Naruto, One Piece, Attack on Titan, and many more series."
+        canonical="/quizzes"
+      />
       <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
         Personality Quizzes
       </h1>
@@ -118,7 +124,9 @@ const QuizzesPage = () => {
           const filteredQuizzes = quizzes.filter(
             (quiz) =>
               quiz.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              quiz.description.toLowerCase().includes(searchQuery.toLowerCase())
+              quiz.description
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase()),
           );
 
           if (filteredQuizzes.length === 0) return null;
@@ -156,7 +164,7 @@ const QuizzesPage = () => {
               </div>
             </div>
           );
-        }
+        },
       )}
 
       {Object.keys(quizzesByAnime).length === 0 && (
