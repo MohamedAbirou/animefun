@@ -260,12 +260,12 @@ const AboutPage = () => {
         </h2>
         <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
           Have a question, a suggestion, or a content concern? We'd love to hear
-          from you. You can reach our team by email and we aim to respond within
-          2 business days.
+          from you. Fill out our contact form and we'll aim to respond within 2
+          business days.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
-          <a
-            href="mailto:contact@animefun.net"
+          <Link
+            to="/contact"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-medium transition-colors text-sm"
           >
             <svg
@@ -282,8 +282,8 @@ const AboutPage = () => {
                 d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
               />
             </svg>
-            contact@animefun.net
-          </a>
+            Contact Form
+          </Link>
           <Link
             to="/faq"
             className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-gray-200 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-dark-hover text-gray-700 dark:text-gray-300 font-medium transition-colors text-sm"

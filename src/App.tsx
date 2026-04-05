@@ -26,6 +26,7 @@ const TermsOfServicePage = lazy(() => import("./pages/TermsOfServicePage"));
 const CopyrightPage = lazy(() => import("./pages/CopyrightPage"));
 const FAQPage = lazy(() => import("./pages/FAQPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
 
 // Admin pages
 const AdminLoginPage = lazy(() => import("./pages/admin/AdminLoginPage"));
@@ -68,6 +69,7 @@ function App() {
 
           {/* Legal and Info Routes */}
           <Route path="about" element={<AboutPage />} />
+          <Route path="contact" element={<ContactPage />} />
           <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="terms-of-service" element={<TermsOfServicePage />} />
           <Route path="copyright" element={<CopyrightPage />} />
